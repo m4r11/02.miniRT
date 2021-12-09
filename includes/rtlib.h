@@ -6,7 +6,7 @@
 /*   By: mvaldeta <mvaldeta@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:15:12 by user              #+#    #+#             */
-/*   Updated: 2021/12/06 17:49:25 by mvaldeta         ###   ########.fr       */
+/*   Updated: 2021/12/09 18:11:30 by mvaldeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define BIT(x) (x * 100 / 255)
 #define P(x) (x * 0.01)
+#define PL(x) ((x * 0.1))
 #define BLACK(x) (x * -0.01)
 #define LIGHT(x) (x * 0.1)
 #define DEC(r, g, b) (((r * 65536) + (g * 256) + b))

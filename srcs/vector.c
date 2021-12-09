@@ -6,7 +6,7 @@
 /*   By: mvaldeta <mvaldeta@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:50:22 by user              #+#    #+#             */
-/*   Updated: 2021/12/06 17:17:12 by mvaldeta         ###   ########.fr       */
+/*   Updated: 2021/12/09 18:13:07 by mvaldeta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,33 @@ t_color c_blend(float alpha, t_color *color)
     t_color new;
     
     alpha = BLACK(alpha);
+   // printf("ALPHA in blend : %f\n", alpha);
     new.r = (alpha) * BIT(color->r);
     new.g = (alpha) * BIT(color->g);
     new.b = (alpha) * BIT(color->b);
 
+    if(new.g > 256)
+    {
+        printf("GREEN IS BIGGER THAN GREEN : %u\n", new.g);
+        printf("ALPHA OVER : %f\n", alpha);
+        new.r += PL(alpha) * 255;
+        new.g = 255;
+        new.b += PL(alpha) * 255;
+        new.hex = DEC(new.r, new.g, new.b);
+        printf("LOW RED : %u\n", new.r);
+        printf("MAXED OUT GREEN : %u\n", new.g);
+        printf("LOW BLUE : %u\n", new.b);
+        printf("MAXED OUT COLOR : %u\n", new.hex);
+        return(new);
+    }
+    new.b = (alpha) * BIT(color->b);
+
     new.hex = DEC(new.r, new.g, new.b);
+/*     printf("colorr in blend : %u\n", new.r);
+    printf("colorg in blend : %u\n", new.g);
+    printf("colorb in blend : %u\n", new.b);
+    printf("colorx in blend : %u\n", new.hex); */
+    color = &new;
     return (new);
 }
 
@@ -40,17 +62,16 @@ t_color c_luminance(float alpha, t_color *color)
     
     alpha = LIGHT(alpha);
     printf("alpha : %f\n", alpha);
-    if(alpha == 0)
-        return(*color);
-    new.r = (alpha) * BIT(color->r);
-    new.g = (alpha) * BIT(color->g);
-    new.b = (alpha) * BIT(color->b);
+    new.r = (alpha) * 255;
+    new.g = (alpha) * 255;
+    new.b = (alpha) * 255;
 
     new.hex = DEC(new.r, new.g, new.b);
     printf("colorr in luminance : %u\n", new.r);
     printf("colorg in luminance : %u\n", new.g);
     printf("colorb in luminance : %u\n", new.b);
     printf("colorx in luminance : %u\n", new.hex);
+    color = &new;
     return (new);
 }
 
