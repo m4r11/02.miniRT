@@ -12,7 +12,7 @@
 
 #include "rtlib.h"
 
-float compute_light(t_frame *rt, t_ray *ray, t_vec obj_coord, t_color volume)
+float compute_light(t_frame *rt, t_ray *ray, t_vec obj_coord, t_color *volume)
 {
     float albedo = 0.18;
     float difuse;
@@ -32,14 +32,16 @@ float compute_light(t_frame *rt, t_ray *ray, t_vec obj_coord, t_color volume)
     surface_normal = v_sub(&p, &obj_coord);
     light_energy = rt->scene->light_color->hex * rt->scene->brightness;
     t_vec light_ray = v_add(&light2world, &obj_coord);
-    light_incident = MIN(dot_p(&light_ray, &surface_normal), light_energy);
+    light_incident = MAX(dot_p(&light_ray, &surface_normal), 0);
 
     difuse = P(light_incident) * albedo;
-    color = volume;
+    color = *volume;
     //color = c_luminance(difuse, &volume);
     //printf("DIFUSE LIGHT : %f\n", difuse);
     return (difuse);
 }
+
+
 void my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
     size_t offset;
@@ -75,7 +77,7 @@ void compute_sphere(t_obj *obj, t_frame *rt)
     ray.start.z = world2scene.z;
     t_color volume;
    // t_color shade;
-   float light;
+    float light;
 
     // uint32_t colors = obj->obj_color->hex;
 
@@ -89,8 +91,12 @@ void compute_sphere(t_obj *obj, t_frame *rt)
             hit = ray_sphere(&ray, obj, v_add(&world2scene, obj->obj_coord));
             if (hit != NO_HIT && hit <= 0)
             {
-                light = compute_light(rt, &ray, v_add(&world2scene, obj->obj_coord), volume);
-                volume = c_blend(light, obj->obj_color);
+                light = compute_light(rt, &ray, v_add(&world2scene, obj->obj_coord), obj->obj_color);
+                printf("->light %f\n", light);
+                printf("->hit %f\n", hit);
+                volume = c_mix(hit, light, obj->obj_color);
+                //volume = c_blend(hit, obj->obj_color);
+                //volume = c_luminance(light, &volume);
                 //shade.hex = compute_light(rt, &ray, v_add(&world2scene, obj->obj_coord), volume);
                 //colors = compute_light(rt, *obj, &ray, *obj->obj_coord, hit);
                 //my_mlx_pixel_put(&rt->obj_img, x, y, shade.hex);

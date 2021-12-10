@@ -19,8 +19,8 @@
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define BIT(x) (x * 100 / 255)
 #define P(x) (x * 0.01)
-#define PL(x) ((x * 0.1))
-#define BLACK(x) (x * -0.01)
+#define PL(x) (x * -0.1)
+#define BLACK(x) (x * -0.01)  /* change for -0.1/-0.01 for a more/less real look */
 #define LIGHT(x) (x * 0.1)
 #define DEC(r, g, b) (((r * 65536) + (g * 256) + b))
 #define NO_HIT -33
@@ -138,6 +138,7 @@ typedef struct s_frame
 /* prototypes */
 
 /* vector.c */
+t_color c_mix(float hit, float light, t_color *obj_color);
 t_color c_luminance(float alpha, t_color *color);
 t_color c_blend(float alpha, t_color *color);
 t_vec normalize(t_vec *p);
@@ -153,7 +154,7 @@ float ray_sphere(t_ray *r, t_obj *s, t_vec obj_coord);
 
 /* render.c */
 
-float compute_light(t_frame *rt, t_ray *ray, t_vec obj_coord, t_color volume);
+float compute_light(t_frame *rt, t_ray *ray, t_vec obj_coord, t_color *volume);
 void my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int render(t_frame *rt);
 void general_img_to_window(t_frame *rt);

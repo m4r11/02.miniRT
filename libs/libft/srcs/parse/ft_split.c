@@ -27,7 +27,7 @@ static	size_t	ft_word_count(const char *s, char c)
 
 	count = 0;
 	if(!s)
-		return(NULL);
+		return(0);
 	while (*s)
 	{
 		if (*s++ == c)
