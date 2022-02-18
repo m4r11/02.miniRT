@@ -6,7 +6,7 @@
 /*   By: user <mvaldeta@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:30:11 by user              #+#    #+#             */
-/*   Updated: 2022/02/07 05:00:26 by user             ###   ########.fr       */
+/*   Updated: 2022/02/18 21:05:00 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,11 @@ float get_time_pl(t_ray *ray, t_vec *point, t_vec *normal)
         // printf("is:%f\n", (is));
    /*      printf("time:%f\n", time);
         printf("were:%f\n", where); */
-        if(where > 20)
-            return (NO_HIT);
-        return (where);
-        if ((is) > 0.01)
+        
+        if ((is) > 0.0001 && where < 20)
         {
-            printf("is:%f\n", (is));
+            return (where);
+            //printf("is:%f\n", (is));
         }
     }
     return (NO_HIT);

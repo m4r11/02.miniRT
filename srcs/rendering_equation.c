@@ -6,7 +6,7 @@
 /*   By: user <mvaldeta@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:30:18 by user              #+#    #+#             */
-/*   Updated: 2022/02/18 18:40:56 by user             ###   ########.fr       */
+/*   Updated: 2022/02/18 21:00:47 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,17 +156,36 @@ t_color standard_re(t_frame *rt, t_ray *ray, t_obj *obj)
     current = rt->objs_first;
     t_ray *shadow;
     ray_init(&shadow);
-    t_vec tar = v_scale(rt->record.latest_t, ray->dir);
-    t_vec center = v_sub(ray->start, obj->obj_coord);
-    t_vec hit_norm = v_sub(&center, &tar);
-    shadow->start = ro_3(shadow, &tar);
-    shadow->dir = rd_3(shadow, &hit_norm);
+    t_vec point = v_scale(rt->record.latest_t, ray->dir);
+    t_vec point_p = v_3(point.x, 0, point.z);
+    t_vec normal = cross_p(point, point_p);
+    t_vec hit_n = v_sub(&point, &normal);
+    t_vec point_to_light = v_sub(ray->start, rt->scene->l->light_coord);
+    point_to_light = v_sub(&hit_n, &point_to_light);
+    point_to_light = normalize(&point_to_light);
+/*     print_vector(point, "point");
+    print_vector(point_p, "point_p");
+    print_vector(normal, "normal");
+    print_vector(hit_n, "hit");
+            print_vector(point_to_light, "point_to_light");
+            exit(0); */
+/*     point = normalize(&point);
+    point_to_light = normalize(&point_to_light); */
+    //t_vec norm = v_3(0, -1, 0);
+    //norm = v_add(&norm, &point);
+    shadow->start = ro_3(shadow, &hit_n);
+    shadow->dir = rd_3(shadow, &point_to_light);
     while (++i <= rt->nbr_objs)
     {   
 
         hit = compute_obj(shadow, current);
-        if (hit != NO_HIT && current != obj)
+        if (hit != NO_HIT && obj->id2 != current->id2)
         {
+            print_vector(point, "point");
+            print_vector(point_p, "point_p");
+            print_vector(normal, "normal");
+            print_vector(point_to_light, "point_to_l");
+            exit(0);
             volume = c_grade(current->obj_color, obj->obj_color, 0, (1 / length(*(shadow->dir))));
             return (volume);
         }
