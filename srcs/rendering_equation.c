@@ -6,7 +6,7 @@
 /*   By: user <mvaldeta@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:30:18 by user              #+#    #+#             */
-/*   Updated: 2022/02/07 13:42:44 by user             ###   ########.fr       */
+/*   Updated: 2022/02/18 18:40:56 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ t_color standard_re(t_frame *rt, t_ray *ray, t_obj *obj)
     ray_init(&shadow);
     t_vec tar = v_scale(rt->record.latest_t, ray->dir);
     t_vec center = v_sub(ray->start, obj->obj_coord);
-    t_vec hit_norm = v_sub(&tar, &center);
+    t_vec hit_norm = v_sub(&center, &tar);
     shadow->start = ro_3(shadow, &tar);
     shadow->dir = rd_3(shadow, &hit_norm);
     while (++i <= rt->nbr_objs)
