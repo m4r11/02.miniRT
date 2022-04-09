@@ -1,0 +1,24 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/mvaldeta/42/42Cursus/02.miniRT'
+printf "\e[31m[BUILD LIBS]\e[0m\n"
+make -C libs/libft
+make -C libs/libbim
+make -C libs/minilibx_ogl
+printf "\e[31m[DONE LIBS]\e[0m\n"
+printf "\e[31m[BUILD LIBS]\e[0m\n"
+make -C libs/libft
+make -C libs/libbim
+make -C libs/minilibx_ogl
+printf "\e[31m[DONE LIBS]\e[0m\n"
+printf "\e[31m[BUILD LIBS]\e[0m\n"
+make -C libs/libft
+make -C libs/libbim
+make -C libs/minilibx_ogl
+printf "\e[31m[DONE LIBS]\e[0m\n"
+mkdir -p bin/
+gcc -g -fsanitize=address -Imlx -Werror -Wall -Wextra  -Llibs/minilibx_ogl/ -lmlx -framework OpenGL -framework AppKit -Llibs/libft/bin -lft -Llibs/libbim/bin -lbim -Iincludes srcs/ascii_to.c srcs/color.c srcs/control.c srcs/create_obj.c srcs/create_scene.c srcs/effects.c srcs/equations.c srcs/fill_scene.c srcs/frame.c srcs/gnl.c srcs/image.c srcs/init.c srcs/intersections.c srcs/lens.c srcs/minirt.c srcs/parse.c srcs/print_info.c srcs/quadratics.c srcs/ray.c srcs/render.c srcs/rendering_equation.c srcs/scene.c srcs/shapes.c srcs/space_translation.c srcs/transformations.c srcs/vector.c srcs/window.c -o  ./minirt
+mv minirt bin/
+printf "\e[31m[ALL]\e[0m\n"
+printf "\e[31m[OUT]\e[0m\n"
+make: Leaving directory `/Users/mvaldeta/42/42Cursus/02.miniRT'
+ 

@@ -6,7 +6,7 @@
 /*   By: user <mvaldeta@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 18:27:40 by mvaldeta          #+#    #+#             */
-/*   Updated: 2022/03/02 22:03:49 by user             ###   ########.fr       */
+/*   Updated: 2022/04/09 03:21:13 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void iterate_obj(t_frame *rt, t_ray *prime, int x, int y)
         {
             rt->record.latest_t = hit;
             volume = standard_re(rt, prime, current);
-            if (hit < focal_l)
+            if (hit <= (focal_l - 3))
             {
                 unsigned int new = apply_blur(rt, x, y);
                 my_mlx_pixel_put(&rt->obj_img, x, (rt->window_h - 1) - y, new);
-            }
+            } 
             else
                 my_mlx_pixel_put(&rt->obj_img, x, (rt->window_h - 1) - y, volume.hex);
             depth_map(rt, x, y, volume.hex);
@@ -73,8 +73,9 @@ int render(t_frame *rt)
     float y = 0;
     fake_init(&ray);
     ray->start = ro_3(ray, rt->scene->c->cam_coord);
-    ray->norm = rt->scene->c->cam_norm;
-    ray->dir->z = ndc(rt, rt->scene->c->cam_coord->z, 'z');
+    (*ray->dir) = v_sub(rt->scene->c->cam_coord, rt->scene->c->cam_norm);
+    ray->dir->z = ndc(rt, rt->scene->c->cam_norm->z, 'z');
+    (*ray->norm) = normalize(rt->scene->c->cam_norm);
     while (y < (float)rt->window_h - 1)
     {
         x = 0;

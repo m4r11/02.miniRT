@@ -6,7 +6,7 @@
 /*   By: user <mvaldeta@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:15:12 by user              #+#    #+#             */
-/*   Updated: 2022/03/11 14:53:30 by user             ###   ########.fr       */
+/*   Updated: 2022/04/09 03:07:18 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,7 @@ typedef struct s_frame
     int window_w;
     int window_h;
     int nbr_objs;
+    unsigned int background;
     t_obj *objs_first;
     t_obj *objs_last;
     t_scene *scene;
@@ -283,7 +284,7 @@ t_color c_color_components(unsigned int decimal_color);
 int c_range(int d, int min, int max);
 int c_increase(int max);
 t_color c_mix_2colors(t_color one, t_color two);
-t_color c_mix_hue(t_color one, t_color two, t_color hue);
+t_color c_mix_hue(t_color onwe, t_color two, t_color hue);
 float c_percentage(int color);
 t_color c_isolate_hue(t_color *check);
 t_color c_mix(t_frame *rt, t_color *obj, double spec, double difuse);
@@ -296,6 +297,7 @@ int	key_kill(int keycode, t_frame *rt);
 
 /* rendering eq */
 double c_clamp(double d, double min, double max);
+int in_shadow(t_frame *rt, t_ray *ray, t_obj *obj);
 double lambert(t_frame *rt, t_ray *ray, t_obj *obj);
 double   blinn_phong(t_frame *rt, t_ray *ray, t_obj *obj);
 t_color standard_re(t_frame *rt, t_ray *ray, t_obj *obj);

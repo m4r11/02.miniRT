@@ -6,7 +6,7 @@
 /*   By: user <mvaldeta@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:45:46 by user              #+#    #+#             */
-/*   Updated: 2022/02/24 15:18:28 by user             ###   ########.fr       */
+/*   Updated: 2022/03/27 19:02:39 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,24 +141,11 @@ float ray_plane(t_ray *r, t_obj *p)
 	v = solve_q(p, *r->dir);
 	d = solve_d(p, p->test);
 	t = (d / v);
-/* 	printf("pp:%f\n", pp);
-	printf("d:%f\n", d);
-	c
-	printf("o:%f\n", o);
-	printf("v:%f\n", v);
-	exit(0); */
-/* 	if(v < 1e-6 || pp - d != 0)
-		return(NO_HIT); */
 	if (v > 1e-9)
 	{
-		//printf("t:%f\n", t);
-		if(t >= 0)
-		{
-				return(t);
-		}
-/* 		p->test = v_scale(t, &p->test);
-		float intersection = solve_q(p, p->test);
-		if (intersection == 0) */
+		if(t < 0)
+			t *= -1.0;
+		return(t);
 	}
 	return (NO_HIT);
 }

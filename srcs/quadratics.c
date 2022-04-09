@@ -6,7 +6,7 @@
 /*   By: user <mvaldeta@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 15:32:49 by user              #+#    #+#             */
-/*   Updated: 2022/02/22 15:55:28 by user             ###   ########.fr       */
+/*   Updated: 2022/03/27 16:06:37 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ float solve_d(t_obj *o, t_vec point)
         a = o->obj_norm->x * point.x;
         b = o->obj_norm->y * point.y;
         c = o->obj_norm->z * point.z;
-        d = (a + b + c) * -1.0;
-        return (d);
+        d = (a + b + c);
+        return (-d);
     }
     return (33);
 }

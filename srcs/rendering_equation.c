@@ -6,7 +6,7 @@
 /*   By: user <mvaldeta@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:30:18 by user              #+#    #+#             */
-/*   Updated: 2022/02/23 03:18:19 by user             ###   ########.fr       */
+/*   Updated: 2022/04/04 22:11:01 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,41 +148,10 @@ double blinn_phong(t_frame *rt, t_ray *ray, t_obj *obj)
 t_color standard_re(t_frame *rt, t_ray *ray, t_obj *obj)
 {
     t_color volume;
-    t_obj *current;
-    float hit;
-    int i = -1;
-    current = rt->objs_first;
-    t_ray *shadow;
-    ray_init(&shadow);
-    t_vec to_hit = v_scale(rt->record.latest_t, ray->dir);
-    t_vec norm = normal_2p(&to_hit, obj->obj_coord);
-    //to_hit = v_scale(0.3, &to_hit);
-    t_color black = {0, 0, 0, 0};
-    // t_vec tar = v_scale(rt->record.latest_t, &to_hit);
-    // t_vec norm = v_sub(&tar, &to_center);
-    t_vec ldir = v_sub(rt->scene->l->light_coord, ray->start);
-    ldir = v_add(&ldir, &to_hit);
-    norm = v_scale(1, &norm);
-    ldir = v_scale(-0.3, &ldir);
-    //t_vec l_dir = v_3(0, 1, 0);
-    //norm = normalize(&norm);
-    shadow->start = ro_3(shadow, &norm);
-    shadow->dir = rd_3(shadow, &ldir);
-    while (++i < rt->nbr_objs)
-    {
 
-        hit = compute_obj(shadow, current);
-        //printf("here");
-        if (hit != NO_HIT && current)
-        {
-           // printf("here2");
-            return (black);
-        }
-        current = current->next;
-    }
     double difuse = lambert(rt, ray, obj);
+    double shadow = in_shadow(rt, ray, obj);
     double spec = blinn_phong(rt, ray, obj);
-    //difuse = 0;
-    volume = c_grade(rt, obj->obj_color, spec, difuse);
+    volume = c_grade(rt, obj->obj_color, spec, difuse - shadow);
     return (volume);
 }
