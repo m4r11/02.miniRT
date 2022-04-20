@@ -6,12 +6,21 @@ EXEC		= libbim.a
 IROOT		= includes/
 L1ROOT		= ../libft
 _LIBDEP		= ../libft/includes/libft.h
-SRC 		= ${wildcard srcs/*.c}
+SROOT		= srcs/check \
+							srcs/convert \
+							srcs/get \
+							srcs/parse
+SRC 		:= $(shell find $(SROOT) -name '*.c')
 OBJ 		= ${patsubst %.c,%.o,${SRC:%.c}}
 OROOT 		= obj/
 BROOT		= bin/
 _L1			= libft.a
-_OBJ 		= filetype_is_valid.o
+_OBJ 		= filetype_is_valid.o \
+									getline.o \
+									parse.o \
+									to_float.o \
+									to_hex.o \
+									to_int.o
 _DEPS 		= includes/bimlib.h
 
 CC       	= gcc

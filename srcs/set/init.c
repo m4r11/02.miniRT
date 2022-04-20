@@ -6,7 +6,7 @@
 /*   By: user <mvaldeta@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 12:20:57 by user              #+#    #+#             */
-/*   Updated: 2022/03/27 19:36:50 by user             ###   ########.fr       */
+/*   Updated: 2022/04/19 18:39:53 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ t_frame *init_frame(void)
     rt->objs_first = NULL;
     rt->objs_last = NULL;
     rt->nbr_objs = 0;
+    rt->out_of_focus = 0;
     int i = -1;
     int j = -1;
-    while(++i < rt->window_h)
+    while(++i < rt->window_h + 1000)
     {
-        while(++j < rt->window_w)
-            rt->pixel_map.map[i][j] = 1;
+        while(++j < rt->window_w + 1000)
+            rt->pixel_map.map[i][j] = 0;
     }
     return(rt);
 }

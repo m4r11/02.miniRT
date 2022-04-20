@@ -6,7 +6,7 @@
 /*   By: user <mvaldeta@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 18:27:40 by mvaldeta          #+#    #+#             */
-/*   Updated: 2022/04/09 03:21:13 by user             ###   ########.fr       */
+/*   Updated: 2022/04/20 23:55:54 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,18 @@ void iterate_obj(t_frame *rt, t_ray *prime, int x, int y)
     t_color volume;
     t_obj *current;
     float hit;
-    float focal_l;
-    focal_l = rt->scene->c->focal_l;
+    float fh;
+    float fl;
+    float fn;
+    float ff;
+    float dof;
+
+    fl = rt->scene->c->focal_l;
+    fh = get_hyperfocal_dist(fl, 0.025, 0.02);
+    fn = get_near_dof(fl);
+    ff = get_far_dof(fl);
+    dof = get_dof_range(fn, ff);
+
     current = rt->objs_first;
     int i = 0;
     while (++i <= rt->nbr_objs)
@@ -28,10 +38,19 @@ void iterate_obj(t_frame *rt, t_ray *prime, int x, int y)
         {
             rt->record.latest_t = hit;
             volume = standard_re(rt, prime, current);
-            if (hit <= (focal_l - 3))
+ /*            printf("hit:%f\n", hit);
+            printf("fn:%f\n", fn);
+            printf("ff:%f\n", ff);
+            printf("fh:%f\n", fh);
+            printf("dof:%f\n", dof);
+            printf("fl:%f\n", fl);
+            exit(0); */
+            if (hit != fh || hit < fl || hit > fl)
             {
+                rt->out_of_focus = 9;
                 unsigned int new = apply_blur(rt, x, y);
                 my_mlx_pixel_put(&rt->obj_img, x, (rt->window_h - 1) - y, new);
+                depth_map(rt, x, y, new);
             } 
             else
                 my_mlx_pixel_put(&rt->obj_img, x, (rt->window_h - 1) - y, volume.hex);

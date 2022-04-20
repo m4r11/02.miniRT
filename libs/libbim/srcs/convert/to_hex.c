@@ -1,34 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   to_hex.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user <mvaldeta@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/29 11:20:21 by mvaldeta          #+#    #+#             */
-/*   Updated: 2022/02/04 12:03:20 by user             ###   ########.fr       */
+/*   Created: 2022/04/20 13:11:58 by user              #+#    #+#             */
+/*   Updated: 2022/04/20 13:12:13 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtlib.h"
+#include "bimlib.h"
 
-char *parse_input(int fd)
+unsigned int ascii_to_hex(int r, int g, int b)
 {
-	char *data = NULL;
-	data = get_next_line(fd);
-	return(data);
-}
-
-char *save_raw(char *input)
-{
-	char *raw;
-	int i = 0;
-	raw = malloc(ft_strlen(input) + 1);
-	while(input[i])
-	{
-		raw[i] = input[i];
-		i++;
-	}
-	raw[i] = 0;
-	return(raw);
+    uint32_t hex;
+  
+    hex = ((r & 0xff) << 16) + ((g & 0xff) << 8) + ((b & 0xff));
+    return (hex);
 }

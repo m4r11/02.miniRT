@@ -7,7 +7,11 @@ IROOT		= includes
 L1			= libs/libft
 L2			= libs/libbim
 L3			= libs/minilibx_ogl
-SRC 		= ${wildcard srcs/*.c}
+SROOT		= srcs/engine \
+							srcs/interface \
+							srcs/render \
+							srcs/set
+SRC 		:= $(shell find $(SROOT) -name '*.c')
 BROOT 		= bin/
 OROOT		= obj/
 OBJ 		= $(patsubst %.c,%.o,${SRC:%.c})

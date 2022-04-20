@@ -6,7 +6,7 @@
 /*   By: user <mvaldeta@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:15:12 by user              #+#    #+#             */
-/*   Updated: 2022/04/09 03:07:18 by user             ###   ########.fr       */
+/*   Updated: 2022/04/20 23:48:54 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@
 
 #include "mlx.h"
 #include "gnl.h"
-#include "libft.h"
 #include "bimlib.h"
+#include "libft.h"
 #include "color.h"
 
 typedef struct s_point
@@ -66,7 +66,7 @@ typedef struct s_pixel
 
 typedef struct s_pixel_map
 {
-    unsigned int map[3000][3000];
+    unsigned int map[9000][9000];
 }t_pixel_map;
 
 typedef struct s_vec
@@ -216,6 +216,7 @@ typedef struct s_parse
 
 typedef struct s_frame
 {
+    int out_of_focus;
     void *mlx_ptr;
     void *win_ptr;
     int window_w;
@@ -335,7 +336,12 @@ double			length(t_vec v);
 float ray_sphere(t_ray *r, t_obj *s, t_vec obj_coord);
 float ray_cy(t_ray *r, t_obj *p, t_vec obj_coord);
 float ray_plane(t_ray *r, t_obj *p);
+
 /* render.c */
+float get_near_dof(float fl);
+float get_hyperfocal_dist(float fl, float ap, float c);
+float get_far_dof(float fl);
+float get_dof_range(float near, float far);
 void iterate_obj(t_frame *rt, t_ray *prime, int x, int y);
 float compute_light_plane(t_frame *rt, t_ray *ray, t_vec obj_coord);
 float compute_light(t_frame *rt, t_ray *ray, t_vec obj_coord);
@@ -354,14 +360,10 @@ void create_image(t_frame *rt, int which);
 void window_init(t_frame *rt);
 void map_to_img(t_data data, int x, int y, int color);
 
-/* ascii_to.c */
+/* specific user conververtions */
 
-int ascii_to_int(char *data);
-float ascii_to_float(char *data);
-t_vec *ascii_to_vec(char *data);
 t_vec *ascii_to_vec(char *data);
 t_color *ascii_to_rgb(char *data);
-unsigned int ascii_to_hex(int r, int g, int b);
 
 /* create_obj.c */
 t_obj *new_obj(t_frame *rt, char *data);

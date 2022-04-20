@@ -6,7 +6,7 @@
 /*   By: user <mvaldeta@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 22:11:25 by user              #+#    #+#             */
-/*   Updated: 2022/03/11 14:53:24 by user             ###   ########.fr       */
+/*   Updated: 2022/04/20 13:35:37 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,13 @@
 int filetype_is_valid(char *arg, char *file_type);
 
 /* 
-*   input parse
+** input get
+*/
+
+char    *get_next_line(int fd);
+
+/* 
+** input parse 
 */
 
 char *parse_input(int fd);
@@ -50,7 +56,7 @@ char *save_raw(char *input);
 
 
 /* 
-*   input convertions
+** input convertions
 */
 
 int ascii_to_int(char *data);

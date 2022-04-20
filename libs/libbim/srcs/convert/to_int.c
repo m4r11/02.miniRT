@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lens.c                                             :+:      :+:    :+:   */
+/*   to_int.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user <mvaldeta@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/19 13:45:34 by user              #+#    #+#             */
-/*   Updated: 2022/02/24 15:02:54 by user             ###   ########.fr       */
+/*   Created: 2022/04/20 13:06:49 by user              #+#    #+#             */
+/*   Updated: 2022/04/20 13:08:24 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtlib.h"
+#include "bimlib.h"
 
-float gaussian_blur();
-
-float get_focal_len(float fov)
+int ascii_to_int(char *data)
 {
-    float fl;
-    float half = fov / 2;
-    fl = (half / (atanf(half)));
-    return((fl * 2));
+    int i;
+    int sign = 1;
+    int nbr = 0;
+
+    i = 0;
+    if (data[0] == '-')
+    {
+        sign = -1;
+        i += 1;
+    }
+    if(data[0] == '0')
+        return(0);
+    while (data[i])
+    {
+        nbr = data[i] - 48 + nbr;
+        i++;
+        if(data[i])
+            nbr *= 10;
+    }
+    return (nbr *= sign);
 }
-
-/* void  out_of_focus(t_ray *prime)
-{
-    prime->dir = sin;
-} */

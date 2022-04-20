@@ -6,7 +6,7 @@
 /*   By: user <mvaldeta@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 18:02:31 by mvaldeta          #+#    #+#             */
-/*   Updated: 2022/03/21 21:40:13 by user             ###   ########.fr       */
+/*   Updated: 2022/04/19 18:36:34 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,11 @@ t_boxblur gaussian_var(int x, int y)
 
 void depth_map(t_frame *rt, int x, int y, unsigned int pixel_color)
 {
+/*   rt->pixel_map.map[x + 1][y] = pixel_color;
+  rt->pixel_map.map[x - 1][y] = pixel_color; */
   rt->pixel_map.map[x][y] = pixel_color;
+/*   rt->pixel_map.map[x][y - 1] = pixel_color;
+  rt->pixel_map.map[x][y + 1] = pixel_color; */
 }
 
 unsigned int apply_blur(t_frame *rt, int x, int y)
@@ -90,7 +94,10 @@ unsigned int apply_blur(t_frame *rt, int x, int y)
 
   int i;
   int j;
-  int radius = 9;
+  int k;
+  int radius;
+  k = rt->out_of_focus;
+  radius = k;
   if (x < radius || y < radius)
     return (0);
   i = y - radius;
@@ -111,21 +118,21 @@ unsigned int apply_blur(t_frame *rt, int x, int y)
     j = x - radius;
     while (j < x + radius)
     {
-      gb_1 = c_color_components(rt->pixel_map.map[j - 1][i - 1]);
-      gb_2 = c_color_components(rt->pixel_map.map[j - 1][i]);
-      gb_3 = c_color_components(rt->pixel_map.map[j - 1][i + 1]);
-      gb_4 = c_color_components(rt->pixel_map.map[j][i - 1]);
-      gb_5 = c_color_components(rt->pixel_map.map[j][i]);
-      gb_6 = c_color_components(rt->pixel_map.map[j][i + 1]);
-      gb_7 = c_color_components(rt->pixel_map.map[j + 1][i - 1]);
-      gb_8 = c_color_components(rt->pixel_map.map[j + 1][i]);
-      gb_9 = c_color_components(rt->pixel_map.map[j + 1][i + 1]);
-      r += ((gb_1.r + gb_2.r + gb_3.r + gb_4.r + gb_5.r + gb_6.r + gb_7.r + gb_8.r + gb_9.r) * 2);
-      g += ((gb_1.g + gb_2.g + gb_3.g + gb_4.g + gb_5.g + gb_6.g + gb_7.g + gb_8.g + gb_9.g) * 2);
-      b += ((gb_1.b + gb_2.b + gb_3.b + gb_4.b + gb_5.b + gb_6.b + gb_7.b + gb_8.b + gb_9.b) * 2);
-
-      n += 9;
-      j += 1;
+        gb_1 = c_color_components(rt->pixel_map.map[j - 1][i - 1]);
+        gb_2 = c_color_components(rt->pixel_map.map[j - 1][i]);
+        gb_3 = c_color_components(rt->pixel_map.map[j - 1][i + 1]);
+        gb_4 = c_color_components(rt->pixel_map.map[j][i - 1]);
+        gb_5 = c_color_components(rt->pixel_map.map[j][i]);
+        gb_6 = c_color_components(rt->pixel_map.map[j][i + 1]);
+        gb_7 = c_color_components(rt->pixel_map.map[j + 1][i - 1]);
+        gb_8 = c_color_components(rt->pixel_map.map[j + 1][i]);
+        gb_9 = c_color_components(rt->pixel_map.map[j + 1][i + 1]);
+        r += ((gb_1.r + gb_2.r + gb_3.r + gb_4.r + gb_5.r + gb_6.r + gb_7.r + gb_8.r + gb_9.r) * 2);
+        g += ((gb_1.g + gb_2.g + gb_3.g + gb_4.g + gb_5.g + gb_6.g + gb_7.g + gb_8.g + gb_9.g) * 2);
+        b += ((gb_1.b + gb_2.b + gb_3.b + gb_4.b + gb_5.b + gb_6.b + gb_7.b + gb_8.b + gb_9.b) * 2);
+  
+        n += radius;
+        j += 1;
     }
     i += 1;
   }
@@ -137,6 +144,6 @@ unsigned int apply_blur(t_frame *rt, int x, int y)
   // sum = DEC(r, g, b);
   // exit(0);
   sum = DEC(c_range(r, 0, 255), c_range(g, 0, 255), c_range(b, 0, 255));
-  depth_map(rt, x, y, sum);
+  //depth_map(rt, x, y, sum);
   return (sum);
 }
